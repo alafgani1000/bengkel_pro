@@ -1,12 +1,10 @@
 name: Release Build
 
 on:
+  push:
+    tags:
+      - 'v*' # Trigger workflow saat ada tag baru yang diawali dengan 'v' (misal: v1.0.0)
   workflow_dispatch:
-    inputs:
-      version_bump:
-        description: 'Jenis rilis (tidak digunakan saat ini, rilis berdasarkan versi package.json)'
-        required: false
-        default: 'beta'
 
 jobs:
   release:
@@ -33,5 +31,5 @@ jobs:
 
       - name: Build & Publish Release
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: npm run release
