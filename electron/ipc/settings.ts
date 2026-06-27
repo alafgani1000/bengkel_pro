@@ -1,13 +1,12 @@
 import { ipcMain, app, dialog } from 'electron';
 import fs from 'fs';
 import path from 'path';
-import { prisma } from '../lib/db';
+import { prisma, dbPath } from '../lib/db';
 
 export function registerSettingsIPC() {
   ipcMain.handle('settings:backup-db', async () => {
     try {
-      const dbPath = path.join(process.cwd(), 'prisma', 'dev.db'); 
-      
+      // Use the exported dbPath that correctly switches between dev and production
       const result = await dialog.showSaveDialog({
         title: 'Simpan Backup Database',
         defaultPath: path.join(app.getPath('documents'), `bengkel_backup_${new Date().getTime()}.db`),
@@ -39,7 +38,7 @@ export function registerSettingsIPC() {
       }
 
       const selectedFile = result.filePaths[0];
-      const dbPath = path.join(process.cwd(), 'prisma', 'dev.db');
+      // Use the exported dbPath that correctly switches between dev and production
 
       // Disconnect from Prisma before overwriting the active database
       await prisma.$disconnect();

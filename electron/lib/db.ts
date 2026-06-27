@@ -24,7 +24,7 @@ if (!isDev) {
   }
 }
 
-const dbPath = isDev ? devDbPath : prodDbPath;
+export const dbPath = isDev ? devDbPath : prodDbPath;
 
 export const prisma = new PrismaClient({
   datasources: {
