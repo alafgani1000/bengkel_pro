@@ -30,7 +30,8 @@ jobs:
         run: npx prisma generate
 
       - name: Build Application
-        run: npm run dist:win
+        # Tambahkan --publish never agar electron-builder tidak mencoba mengunggah sendiri dan crash saat tidak ada token
+        run: npm run build && npx electron-builder --win --publish never
 
       - name: Upload Release Asset
         uses: softprops/action-gh-release@v2
