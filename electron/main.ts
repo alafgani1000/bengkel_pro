@@ -8,6 +8,7 @@ import { registerInventoryIPC } from './ipc/inventory';
 import { registerCustomersIPC } from './ipc/customers';
 import { registerReportsIPC } from './ipc/reports';
 import { registerSettingsIPC } from './ipc/settings';
+import { registerMigrationIPC } from './ipc/migration';
 
 // @ts-ignore
 globalThis.__dirname = import.meta.dirname;
@@ -79,6 +80,7 @@ registerInventoryIPC();
 registerCustomersIPC();
 registerReportsIPC();
 registerSettingsIPC();
+registerMigrationIPC();
 
 // Graceful exit for Prisma
 app.on('will-quit', async () => {
