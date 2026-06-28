@@ -1,7 +1,7 @@
 {
   "name": "bengkel-pro",
   "private": true,
-  "version": "1.0.0-beta.14",
+  "version": "1.0.0",
   "repository": "https://github.com/alafgani1000/bengkel_pro",
   "type": "module",
   "main": "dist-electron/main.js",
