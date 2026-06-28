@@ -14,8 +14,22 @@ const devDbPath = path.join(process.cwd(), 'prisma', 'dev.db');
 const prodDbPath = path.join(app.getPath('userData'), 'bengkelpro.db');
 
 if (!isDev) {
-  // If we're packaged and the user DB doesn't exist yet, copy our baseline DB over
-  if (!fs.existsSync(prodDbPath)) {
+  let shouldCopy = !fs.existsSync(prodDbPath);
+  if (!shouldCopy) {
+    try {
+      const stats = fs.statSync(prodDbPath);
+      // If the file is less than 50KB, it's an empty SQLite file created by a failed run.
+      // Our baseline dev.db is ~180KB.
+      if (stats.size < 50000) {
+        shouldCopy = true;
+      }
+    } catch (e) {
+      shouldCopy = true;
+    }
+  }
+
+  // If we're packaged and the user DB doesn't exist yet (or is empty), copy our baseline DB over
+  if (shouldCopy) {
     // electron-builder extraResources puts prisma in process.resourcesPath/prisma
     const bundledDbPath = path.join(process.resourcesPath, 'prisma', 'dev.db');
     if (fs.existsSync(bundledDbPath)) {
