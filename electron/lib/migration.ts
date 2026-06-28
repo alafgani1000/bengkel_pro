@@ -9,7 +9,7 @@ const isDev = process.env.NODE_ENV === 'development' || !app.isPackaged;
 const getMigrationsDir = () => {
   return isDev
     ? path.join(process.cwd(), 'prisma', 'migrations')
-    : path.join(process.resourcesPath, 'app.asar.unpacked', 'prisma', 'migrations');
+    : path.join(process.resourcesPath, 'prisma', 'migrations');
 };
 
 /**

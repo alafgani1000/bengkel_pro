@@ -16,9 +16,13 @@ const prodDbPath = path.join(app.getPath('userData'), 'bengkelpro.db');
 if (!isDev) {
   // If we're packaged and the user DB doesn't exist yet, copy our baseline DB over
   if (!fs.existsSync(prodDbPath)) {
-    // electron-builder will put prisma/dev.db in the app.asar.unpacked directory (as configured in package.json)
-    const bundledDbPath = path.join(process.resourcesPath, 'app.asar.unpacked', 'prisma', 'dev.db');
+    // electron-builder extraResources puts prisma in process.resourcesPath/prisma
+    const bundledDbPath = path.join(process.resourcesPath, 'prisma', 'dev.db');
     if (fs.existsSync(bundledDbPath)) {
+      const prodDbDir = path.dirname(prodDbPath);
+      if (!fs.existsSync(prodDbDir)) {
+        fs.mkdirSync(prodDbDir, { recursive: true });
+      }
       fs.copyFileSync(bundledDbPath, prodDbPath);
     }
   }
