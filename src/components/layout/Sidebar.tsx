@@ -13,7 +13,8 @@ import {
   LogOut,
   ChevronLeft,
   ChevronRight,
-  BookOpen
+  BookOpen,
+  UserCog
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useQuery } from '@tanstack/react-query';
@@ -49,6 +50,10 @@ export function Sidebar() {
     { to: '/customers', icon: Users, label: 'Pelanggan' },
     { to: '/reports', icon: BarChart2, label: 'Laporan' },
   ];
+
+  if (user?.role === 'OWNER' || user?.role === 'ADMIN') {
+    navItems.push({ to: '/users', icon: UserCog, label: 'Manajemen Pengguna', badge: undefined });
+  }
 
   return (
     <aside className={cn(

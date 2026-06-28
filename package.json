@@ -1,7 +1,7 @@
 {
   "name": "bengkel-pro",
   "private": true,
-  "version": "1.0.0-beta.11",
+  "version": "1.0.0-beta.12",
   "repository": "https://github.com/alafgani1000/bengkel_pro",
   "type": "module",
   "main": "dist-electron/main.js",
@@ -79,6 +79,7 @@
     "@radix-ui/react-select": "^2.3.0",
     "@radix-ui/react-separator": "^1.1.9",
     "@radix-ui/react-slot": "^1.2.5",
+    "@radix-ui/react-switch": "^1.3.1",
     "@radix-ui/react-tabs": "^1.1.14",
     "@react-pdf/renderer": "^4.5.1",
     "@tanstack/react-query": "^5.101.0",

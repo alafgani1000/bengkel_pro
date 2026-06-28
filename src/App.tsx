@@ -14,6 +14,7 @@ import { CustomersPage } from './pages/customers/CustomersPage';
 import { ReportsPage } from './pages/reports/ReportsPage';
 import { SettingsPage } from './pages/settings/SettingsPage';
 import { HelpPage } from './pages/help/HelpPage';
+import { UsersPage } from './pages/users/UsersPage';
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
@@ -69,6 +70,9 @@ export default function App() {
           
           {/* Settings */}
           <Route path="settings" element={<SettingsPage />} />
+          
+          {/* Users Management */}
+          <Route path="users" element={<UsersPage />} />
           
           {/* Help */}
           <Route path="help" element={<HelpPage />} />
