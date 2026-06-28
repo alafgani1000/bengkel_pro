@@ -17,6 +17,7 @@ import {
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useQuery } from '@tanstack/react-query';
+import logoUrl from '@/assets/logo.png';
 
 export function Sidebar() {
   const { user, logout } = useAuthStore();
@@ -61,11 +62,11 @@ export function Sidebar() {
       )}>
         {!isCollapsed ? (
           <div className="flex items-center gap-2">
-            <img src="/logo.png" className="w-8 h-8 rounded-md object-cover border border-border shadow-sm" alt="Logo" />
+            <img src={logoUrl} className="w-8 h-8 rounded-md object-cover border border-border shadow-sm" alt="Logo" />
             <span className="text-primary font-bold text-lg tracking-tight">Bengkel Pro</span>
           </div>
         ) : (
-          <img src="/logo.png" className="w-8 h-8 rounded-md object-cover border border-border shadow-sm" alt="Logo" />
+          <img src={logoUrl} className="w-8 h-8 rounded-md object-cover border border-border shadow-sm" alt="Logo" />
         )}
         <Button 
           variant="ghost" 
