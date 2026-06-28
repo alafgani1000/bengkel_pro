@@ -1,5 +1,6 @@
 import { ipcMain } from 'electron';
 import { prisma } from '../lib/db';
+import { logger } from '../lib/logger';
 
 export function registerWorkOrderIPC() {
   ipcMain.handle('work-order:list', async (_, filters) => {
@@ -33,7 +34,7 @@ export function registerWorkOrderIPC() {
 
   ipcMain.handle('work-order:create', async (_, data) => {
     try {
-      console.log('Creating SPK with data:', data);
+      logger.info('Creating SPK with data:', data);
       
       // Generate nomor SPK: SPK-YYYYMMDD-XXXX
       const date = new Date().toISOString().slice(0, 10).replace(/-/g, '');
@@ -93,10 +94,10 @@ export function registerWorkOrderIPC() {
           status: 'ANTRI',
         },
       });
-      console.log('WorkOrder created successfully:', wo.id);
+      logger.info('WorkOrder created successfully:', wo.id);
       return wo;
     } catch (error: any) {
-      console.error('work-order:create ERROR:', error);
+      logger.error('work-order:create ERROR:', error);
       throw error;
     }
   });
@@ -143,7 +144,8 @@ export function registerWorkOrderIPC() {
   });
 
   ipcMain.handle('work-order:add-item', async (_, data: { workOrderId: string; type: string; nama: string; qty: number; hargaSatuan: number; sparepartId?: string }) => {
-    const subtotal = data.qty * data.hargaSatuan;
+    try {
+      const subtotal = data.qty * data.hargaSatuan;
     
     // Create the item
     const item = await prisma.workOrderItem.create({
@@ -204,7 +206,11 @@ export function registerWorkOrderIPC() {
       }
     }
 
-    return item;
+      return item;
+    } catch (error: any) {
+      logger.error('work-order:add-item ERROR:', error);
+      throw error;
+    }
   });
 
   ipcMain.handle('work-order:remove-item', async (_, { id }) => {

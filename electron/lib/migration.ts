@@ -31,6 +31,11 @@ async function initMigrationTable() {
 export async function checkMigrations(): Promise<string[]> {
   const migrationsDir = getMigrationsDir();
   
+  // In development, developers manage migrations manually via Prisma CLI
+  if (isDev) {
+    return [];
+  }
+  
   // If migrations directory doesn't exist (e.g., deleted), return empty array
   if (!fs.existsSync(migrationsDir)) {
     return [];
@@ -39,10 +44,25 @@ export async function checkMigrations(): Promise<string[]> {
   await initMigrationTable();
 
   // Read all applied migrations from the database
-  const appliedMigrations = await prisma.$queryRawUnsafe<{id: string}[]>(
-    `SELECT id FROM _AppMigrations`
-  );
-  const appliedIds = new Set(appliedMigrations.map(m => m.id));
+  let appliedIds = new Set<string>();
+  
+  try {
+    const appliedApp = await prisma.$queryRawUnsafe<{id: string}[]>(
+      `SELECT id FROM _AppMigrations`
+    );
+    appliedApp.forEach(m => appliedIds.add(m.id));
+  } catch (e) {
+    // Ignore if table doesn't exist yet
+  }
+
+  try {
+    const appliedPrisma = await prisma.$queryRawUnsafe<{migration_name: string}[]>(
+      `SELECT migration_name FROM _prisma_migrations`
+    );
+    appliedPrisma.forEach(m => appliedIds.add(m.migration_name));
+  } catch (e) {
+    // Ignore if table doesn't exist
+  }
 
   // Read all available migration folders in the filesystem
   const entries = fs.readdirSync(migrationsDir, { withFileTypes: true });
