@@ -30,6 +30,11 @@ if (!isDev) {
 
 export const dbPath = isDev ? devDbPath : prodDbPath;
 
+if (!isDev) {
+  // Set the Prisma engine path to the one we copied into resources/prisma
+  process.env.PRISMA_QUERY_ENGINE_LIBRARY = path.join(process.resourcesPath, 'prisma', 'query_engine-windows.dll.node');
+}
+
 export const prisma = new PrismaClient({
   datasources: {
     db: {
