@@ -5,7 +5,6 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import logoUrl from '@/assets/logo.png';
 
 export function LoginPage() {
   const [username, setUsername] = useState('');
@@ -51,7 +50,7 @@ export function LoginPage() {
       <Card className="w-full max-w-md shadow-lg">
         <CardHeader className="space-y-1 text-center">
           <div className="w-16 h-16 rounded-2xl mx-auto mb-4 overflow-hidden border border-border shadow-md">
-            <img src={logoUrl} className="w-full h-full object-cover" alt="Bengkel Pro Logo" />
+            <img src="./logo.png" className="w-full h-full object-cover" alt="Bengkel Pro Logo" />
           </div>
           <CardTitle className="text-2xl font-bold tracking-tight">Login Bengkel Pro</CardTitle>
           <CardDescription>
