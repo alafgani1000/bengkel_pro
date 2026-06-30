@@ -14,6 +14,15 @@ export function LoginPage() {
   const login = useAuthStore((state) => state.login);
   const navigate = useNavigate();
 
+  const [showFirstRunMessage, setShowFirstRunMessage] = useState(
+    localStorage.getItem('bengkelpro_first_run') !== 'false'
+  );
+
+  const dismissFirstRun = () => {
+    localStorage.setItem('bengkelpro_first_run', 'false');
+    setShowFirstRunMessage(false);
+  };
+
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
@@ -57,6 +66,27 @@ export function LoginPage() {
             Masukkan username dan password Anda untuk masuk ke sistem
           </CardDescription>
         </CardHeader>
+        
+        {showFirstRunMessage && (
+          <div className="bg-blue-50 border border-blue-200 text-blue-800 rounded-lg p-4 mb-2 mx-6 text-sm">
+            <h4 className="font-bold text-blue-900 mb-1">Selamat Datang di Bengkel Pro! 🎉</h4>
+            <p className="mb-2">Ini adalah instalasi pertama Anda. Silakan masuk menggunakan akun default (Owner):</p>
+            <div className="bg-white p-2 rounded border border-blue-100 font-mono text-xs mb-3">
+              <p>Username: <strong>admin</strong></p>
+              <p>Password: <strong>Admin123!</strong></p>
+            </div>
+            <Button 
+              type="button" 
+              variant="outline" 
+              size="sm" 
+              className="w-full bg-blue-100 hover:bg-blue-200 border-blue-300 text-blue-900" 
+              onClick={dismissFirstRun}
+            >
+              Oke, Saya Mengerti
+            </Button>
+          </div>
+        )}
+
         <form onSubmit={handleLogin}>
           <CardContent className="space-y-4">
             <div className="space-y-2">
